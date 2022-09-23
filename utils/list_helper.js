@@ -35,8 +35,30 @@ const favoriteBlog = (blogs) => {
 
 }
 
-  module.exports = {
-    dummy,
-    totalLikes,
-    favoriteBlog
+const mostBlogs = (blogs) =>{
+  var names = []
+  blogs.map(blog =>{
+    names.push(blog.author)
+  })
+
+  const auth_blogs = names.reduce( (author, amount)=>{
+    author[amount] = (author[amount] || 0 ) + 1
+    return (author)
+  },{})
+  
+  const author = Object.keys(auth_blogs).reduce((a, b) => auth_blogs[a] > auth_blogs[b] ? a : b)
+  const blogamount = Object.values(auth_blogs).reduce((a, b) => auth_blogs[a] > auth_blogs[b] ? a : b)
+
+  return {
+    author : author,
+    blogs : blogamount
+  }
+
+  }
+
+module.exports = {
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlogs
   }
