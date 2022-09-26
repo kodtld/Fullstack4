@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title":"RuokaBlogi",
-    "author":"Pieta Vasikka",
-    "url":"www.url.com",
-    "likes":14
+    "title": "Pesäpallo kikat",
+    "author": "Teuvo Maila",
+    "url": "www.palloapesään.org",
+    "likes":""
 }

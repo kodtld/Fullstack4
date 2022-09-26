@@ -53,7 +53,6 @@ const mostBlogs = (blogs) =>{
     author : author,
     blogs : blogamount
   }
-
   }
 
 module.exports = {
