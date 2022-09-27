@@ -10,7 +10,7 @@ const initialBlogs = [
     author: "Pieta Vasikka",
     url: "www.url.com",
     likes: 14,
-    id: "63288d933cfe4b0f8a895f94"
+    id: "6332ea51305b4e92d08769c1"
     },
     {
     title: "Vaate Blogi",
@@ -71,7 +71,7 @@ test('an invalid note cant be added ', async () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(404)
+      .expect(400)
 
   })
 
@@ -93,6 +93,47 @@ test('if no likes, likes === 0 ', async () => {
     expect(response.body[2].likes).toEqual(0)
   })
 
+test('update blog', async () => {
+    const blogsAtStart = await api .get(`/api/blogs`)
+    const blogToUpdate = blogsAtStart.body[0]
+    
+    const newBlog ={
+        title: "RuokaBlogi",
+        author: "Pieta Vasikka",
+        url: "www.url.com",
+        likes: 116,
+        }
+  
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].likes).toEqual(116)
+  })
+
+
+
+  describe('deletion of a note', () => {
+    test('succeeds with status code 204 if id is valid', async () => {
+      const blogsAtStart = await api .get(`/api/blogs`)
+      const blogToDelete = blogsAtStart.body[0]
+    
+      console.log(blogsAtStart)
+      await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+
+      const blogsAtEnd = await api .get(`/api/blogs`)
+
+      expect(blogsAtEnd.body).toHaveLength(
+        initialBlogs.length - 1
+      )
+
+  })
+})
 
 afterAll(() => {
   mongoose.connection.close()

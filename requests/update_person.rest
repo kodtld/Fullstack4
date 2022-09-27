@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/6332e9e408c7dd7410c4c694
+Content-Type: application/json
+
+{
+    "title": "Pesäpallo kikat",
+    "author": "Teuvo Maila",
+    "url": "www.palloapesään.org",
+    "likes":14
+}
