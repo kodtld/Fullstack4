@@ -2,8 +2,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Pesäpallo kikat",
-    "author": "Teuvo Maila",
-    "url": "www.palloapesään.org",
-    "likes":""
+    "title": "MinunBlogi",
+    "author": "Veijo Vassi",
+    "url": "www.minunblogi.fi",
+    "likes":"",
+    "user":"633c2e5a0e864546aa6e900c"
+    
 }
