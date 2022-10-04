@@ -14,8 +14,6 @@ blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
   const user = await User.findById(blog.user)
 
-  console.log(user)
-
   if (!(blog.likes)) {
     blog.likes=0
   }

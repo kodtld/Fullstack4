@@ -17,7 +17,7 @@ usersRouter.post('/', async (request, response) => {
       })
   }
 
-  if (!(username.lenght < 3)){
+  if (username.lenght < 3){
     return response.status(400).json({
         error: 'username must be atleast 3 chars. long'
       })

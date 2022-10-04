@@ -24,75 +24,14 @@ const initialBlogs = [
     }
     ]
 
-beforeEach(async () => {
+describe("Blog tests",()=> {
+  beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(initialBlogs[0])
     await blogObject.save()
     blogObject = new Blog(initialBlogs[1])
     await blogObject.save()
     })
-
-describe("User database", () => {
-  describe('when there is initially one user at db', () => {
-    beforeEach(async () => {
-    
-        await User.deleteMany({})
-
-    const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
-
-    await user.save()
-  })
-
-const usersInDb = async () => {
-    const users = await User.find({})
-    return users.map(u => u.toJSON())
-  }
-  
-
-test('creation succeeds with a fresh username', async () => {
-const usersAtStart = await usersInDb()
-
-    const newUser = {
-      username: 'mluukkai',
-      name: 'Matti Luukkainen',
-      password: 'salainen',
-    }
-
-    await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
-
-    const usersAtEnd = await usersInDb()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
-
-    const usernames = usersAtEnd.map(u => u.username)
-    expect(usernames).toContain(newUser.username)
-  })
-  test('creation fails with proper statuscode and message if username already taken', async () => {
-    const usersAtStart = await usersInDb()
-  
-    const newUser = {
-      username: 'root',
-      name: 'Superuser',
-      password: 'salainen',
-    }
-  
-    const result = await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(400)
-      .expect('Content-Type', /application\/json/)
-  
-    expect(result.body.error).toContain('username must be unique')
-  
-    const usersAtEnd = await usersInDb()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length)
-  })
-})
-})
 
 test('right amount of notes are returned as json', async () => {
     const response = await api.get('/api/blogs')
@@ -179,12 +118,9 @@ test('update blog', async () => {
     expect(response.body[0].likes).toEqual(116)
   })
 
-
-
-  describe('deletion of a note', () => {
-    test('succeeds with status code 204 if id is valid', async () => {
-      const blogsAtStart = await api .get(`/api/blogs`)
-      const blogToDelete = blogsAtStart.body[0]
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await api .get(`/api/blogs`)
+    const blogToDelete = blogsAtStart.body[0]
     
       console.log(blogsAtStart)
       await api
@@ -196,9 +132,74 @@ test('update blog', async () => {
       expect(blogsAtEnd.body).toHaveLength(
         initialBlogs.length - 1
       )
+  })
 
+})
+
+/* ________________________________________*/
+
+describe("User database", () => {
+  describe('when there is initially one user at db', () => {
+    beforeEach(async () => {
+    
+        await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+const usersInDb = async () => {
+    const users = await User.find({})
+    return users.map(u => u.toJSON())
+  }
+  
+
+test('creation succeeds with a fresh username', async () => {
+const usersAtStart = await usersInDb()
+
+    const newUser = {
+      username: 'mluukkai',
+      name: 'Matti Luukkainen',
+      password: 'salainen'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).toContain(newUser.username)
+  })
+  test('creation fails with proper statuscode and message if username already taken', async () => {
+    const usersAtStart = await usersInDb()
+  
+    const newUser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'salainen',
+    }
+  
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  
+    expect(result.body.error).toContain('username must be unique')
+  
+    const usersAtEnd = await usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
 })
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
