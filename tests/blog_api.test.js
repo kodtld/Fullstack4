@@ -197,6 +197,26 @@ const usersAtStart = await usersInDb()
     const usersAtEnd = await usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
+  test('creation fails with proper statuscode and message if username too short', async () => {
+    const usersAtStart = await usersInDb()
+    
+    const newUser = {
+      username: 'ro',
+      name: 'Superuser',
+      password: 'salainen',
+    }
+  
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  
+    expect(result.body.error).toContain('username must be atleast 3 chars. long')
+  
+    const usersAtEnd = await usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
 })
 })
 

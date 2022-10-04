@@ -3,7 +3,7 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 
 usersRouter.post('/', async (request, response) => {
-  const { username, name, password } = request.body
+  var { username, name, password } = request.body
   const existingUser = await User.findOne({ username })
   if (existingUser) {
     return response.status(400).json({
@@ -11,13 +11,14 @@ usersRouter.post('/', async (request, response) => {
     })
   }
 
+  
   if (!(username && name)){
     return response.status(400).json({
         error: 'must include username and name'
       })
   }
 
-  if (username.lenght < 3){
+  if (!(String(username).length > 2)){
     return response.status(400).json({
         error: 'username must be atleast 3 chars. long'
       })
