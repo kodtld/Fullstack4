@@ -3,10 +3,10 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmVrb3ZhIiwiaWQiOiI2MzNjNTg5NWYzODEzZjE2NmM5MDdiOTgiLCJpYXQiOjE2NjQ5MDkyMzF9.t1fvNaQXXf4yZF3N533nni-CcAh9blDE2QhQToQL6kg
 
 {
-    "title": "Salainen Blogi",
+    "title": "Tokeni Teuvo",
     "author": "Koni Kovanen",
-    "url": "www.secrethih.fi",
-    "likes":"",
+    "url": "www.tokenkelaa.sp",
+    "likes":"7",
     "user":"633c5895f3813f166c907b98"
     
 }
